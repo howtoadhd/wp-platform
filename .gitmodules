@@ -1,0 +1,6 @@
+[submodule "modules/batcache"]
+	path = modules/batcache
+	url = https://github.com/humanmade/batcache.git
+[submodule "modules/object-cache"]
+	path = modules/object-cache
+	url = https://github.com/humanmade/wordpress-pecl-memcached-object-cache.git

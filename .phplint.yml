@@ -1,0 +1,13 @@
+path: ./
+jobs: 10
+extensions:
+  - php
+exclude:
+  - vendor
+
+  - modules/batcache
+  - modules/cavalcade
+  - modules/ludicrousdb
+  - modules/object-cache
+  - modules/s3-uploads
+  - modules/ses-wp-mail
