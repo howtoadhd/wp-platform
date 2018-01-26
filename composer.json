@@ -38,7 +38,7 @@
   },
   "require-dev": {
     "howtoadhd/phpcs-ruleset": "dev-master",
-    "overtrue/phplint": "^0.2.4"
+    "overtrue/phplint": "^1.0.2"
   },
   "suggest": {
     "howtoadhd/wordpress": "dev-master"
