@@ -53,7 +53,7 @@ jobs:
         - make
         - |
           if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-            if [ `git branch --list ${BUILD_BRANCH}`]; then
+            if [ `git branch --list ${BUILD_BRANCH}` ]; then
               echo "Branch ${BUILD_BRANCH} already exists."
               git checkout ${BUILD_BRANCH}
             else
