@@ -1,0 +1,31 @@
+sudo: required
+
+language: php
+php:
+  - '7.0'
+
+stages:
+  - analyse
+
+jobs:
+  include:
+
+    - stage: analyse
+      env:
+        - TEST=phplint
+      before_script:
+        - composer install
+      script:
+        - composer analyse:phplint
+
+    - stage: analyse
+      env:
+        - TEST=phpcs
+      before_script:
+        - composer install
+      script:
+        - composer analyse:phpcs
+
+notifications:
+  webhooks:
+    - https://h2a-hubot.herokuapp.com/webhooks/travis
