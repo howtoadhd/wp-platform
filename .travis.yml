@@ -6,6 +6,7 @@ php:
 
 stages:
   - analyse
+  - build
 
 jobs:
   include:
@@ -25,6 +26,38 @@ jobs:
         - composer install
       script:
         - composer analyse:phpcs
+
+    - stage: build
+      before_script:
+        - export SRC_BRANCH=${TRAVIS_BRANCH}
+        - export SRC_PREFIX="src/"
+
+        - export BUILD_BRANCH=${SRC_BRANCH#$SRC_PREFIX}
+
+        - export AUTHOR_NAME=`git --no-pager show -s --format='%an'`
+        - export AUTHOR_EMAIL=`git --no-pager show -s --format='%ae'`
+
+        - git config --global user.name "${AUTHOR_NAME}"
+        - git config --global user.email "${AUTHOR_EMAIL}"
+
+        - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+        - git fetch
+      script:
+        - make
+        - |
+          if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+            if [ `git branch --list ${BUILD_BRANCH}`]; then
+              echo "Branch ${BUILD_BRANCH} already exists."
+              git checkout ${BUILD_BRANCH}
+            else
+              echo "Creating branch ${BUILD_BRANCH}."
+              git checkout --orphan ${BUILD_BRANCH}
+            fi
+            git add .
+            git commit -m "${TRAVIS_COMMIT_MESSAGE}"
+            git remote set-url origin "https://${GH_TOKEN}:x-oauth-basic@github.com/howtoadhd/wp-platform.git"
+            git push origin "${BUILD_BRANCH}"
+          fi
 
 notifications:
   webhooks:
