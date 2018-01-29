@@ -41,7 +41,7 @@
     "overtrue/phplint": "^1.0.2"
   },
   "suggest": {
-    "howtoadhd/wordpress": "dev-master"
+    "johnpbloch/wordpress-core": "^4.6"
   },
   "scripts": {
 	"analyse:phpcs": "phpcs .",
