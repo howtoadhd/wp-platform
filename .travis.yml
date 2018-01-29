@@ -50,7 +50,6 @@ jobs:
           done
         - git checkout ${BUILD_HEAD}
       script:
-        - make
         - |
           if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
             if [ `git branch --list ${BUILD_BRANCH}` ]; then
@@ -60,11 +59,13 @@ jobs:
               echo "Creating branch ${BUILD_BRANCH}."
               git checkout --orphan ${BUILD_BRANCH}
             fi
-            git add .
-            git commit -m "${TRAVIS_COMMIT_MESSAGE}"
-            git remote set-url origin "https://${GH_TOKEN}:x-oauth-basic@github.com/howtoadhd/wp-platform.git"
-            git push origin "${BUILD_BRANCH}"
           fi
+        - git cherry-pick ${BUILD_HEAD}
+        - make
+        - git add .
+        - git commit -m "${TRAVIS_COMMIT_MESSAGE}"
+        - git remote set-url origin "https://${GH_TOKEN}:x-oauth-basic@github.com/howtoadhd/wp-platform.git"
+        - git push origin "${BUILD_BRANCH}"
 
 notifications:
   webhooks:
