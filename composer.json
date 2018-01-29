@@ -1,0 +1,58 @@
+{
+  "name": "howtoadhd/wp-platform",
+  "description": "WordPress platform tools for HowToADHD",
+  "homepage": "https://github.com/howtoadhd/wp-platform",
+  "type": "wp-platform",
+  "license"    : "GPL-2.0+",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "authors": [
+    {
+      "name": "Lorelei Aurora",
+      "email": "iam@l5i.me"
+    }
+  ],
+  "support"    : {
+    "issues": "https://github.com/howtoadhd/wp-platform/issues",
+    "source": "https://github.com/howtoadhd/wp-platform"
+  },
+  "autoload": {
+    "psr-4": {
+      "HowToADHD\\WPPlatform\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "https://howtoadhd.github.io/satis"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "aws/aws-sdk-php": "3.27.*",
+    "howtoadhd/wp-platform-installer": "dev-master"
+  },
+  "require-dev": {
+    "howtoadhd/phpcs-ruleset": "dev-master",
+    "overtrue/phplint": "^1.0.2"
+  },
+  "suggest": {
+    "howtoadhd/wordpress": "dev-master"
+  },
+  "scripts": {
+	"analyse:phpcs": "phpcs .",
+	"analyse:phplint": "phplint",
+	"analyse": [
+	  "@analyse:phplint",
+	  "@analyse:phpcs"
+	],
+	"fix:phpcbf": "phpcbf .",
+	"fix": [
+	  "@fix:phpcbf"
+	]
+  }
+}

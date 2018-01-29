@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Standard">
+
+	<!-- Include the necessary rulesets. -->
+	<config name="installed_paths" value="vendor/howtoadhd/phpcs-ruleset,vendor/wp-coding-standards/wpcs,vendor/wimg/php-compatibility" />
+	<rule ref="HowToADHD"/>
+
+	<exclude-pattern>/vendor/*</exclude-pattern>
+
+	<exclude-pattern>/modules/batcache/*</exclude-pattern>
+	<exclude-pattern>/modules/cavalcade/*</exclude-pattern>
+	<exclude-pattern>/modules/ludicrousdb/*</exclude-pattern>
+	<exclude-pattern>/modules/object-cache/*</exclude-pattern>
+	<exclude-pattern>/modules/s3-uploads/*</exclude-pattern>
+	<exclude-pattern>/modules/ses-wp-mail/*</exclude-pattern>
+</ruleset>
