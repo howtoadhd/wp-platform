@@ -94,12 +94,39 @@ final class Platform {
 			return;
 		}
 
+		$GLOBALS['memcached_servers'] = $this->get_memcached_servers();
+
+		if ( empty( $GLOBALS['memcached_servers'] ) ) {
+			die( 'You have enabled the object cache but have not specified any servers.' );
+		}
+
 		wp_using_ext_object_cache( true );
 
 		require $this->modules_path . '/object-cache/object-cache.php';
 
 		// cache must be initialised once it's included, else we'll get a fatal.
 		wp_cache_init();
+	}
+
+
+	/**
+	 * Get array of memcached servers from MEMCACHED_SERVERS env var.
+	 *
+	 * @return array Memcached IP/Port mappings.
+	 */
+	public function get_memcached_servers() {
+		$env     = Util::env( 'MEMCACHED_SERVERS' );
+		$servers = [];
+
+		foreach ( explode( ',', $env ) as $server ) {
+			if ( empty( $server ) ) {
+				continue;
+			}
+
+			$servers[] = explode( ':', $server, 2 );
+		}
+
+		return $servers;
 	}
 
 	/**
