@@ -75,7 +75,6 @@ final class Platform {
 	 * Check the environment is configures correctly.
 	 */
 	public function preflight() {
-
 		if ( defined( 'WP_CACHE' ) ) {
 			die( 'WP Platform requires you to remove define( \'WP_CACHE\', &lt;value&gt; ); from wp-config.php.' );
 		}
@@ -89,7 +88,6 @@ final class Platform {
 	 * Enable the object cache if ENABLE_OBJECT_CACHE env var is defined.
 	 */
 	public function maybe_enable_object_cache() {
-
 		if ( ! Util::env( 'ENABLE_OBJECT_CACHE', true ) ) {
 			return;
 		}
@@ -137,7 +135,6 @@ final class Platform {
 	 * @return false Dont include wp-content/object-cache.php.
 	 */
 	public function maybe_enable_page_cache( $should_load ) {
-
 		if ( ! Util::env( 'ENABLE_OBJECT_CACHE', true )
 			|| ! Util::env( 'ENABLE_PAGE_CACHE', true )
 			|| ! $should_load
@@ -151,5 +148,62 @@ final class Platform {
 		$GLOBALS['wp_filter'] = \WP_Hook::build_preinitialized_hooks( $GLOBALS['wp_filter'] ); // WPCS: override ok.
 
 		return false;
+	}
+
+	/**
+	 * Enable the replacement DB class.
+	 */
+	public function enable_db() {
+		global $wpdb;
+
+		// Bail if database object is already set.
+		if ( isset( $wpdb ) ) {
+			return;
+		}
+
+		// Required files.
+		require $this->modules_path . '/ludicrousdb/ludicrousdb/includes/functions.php';
+		require $this->modules_path . '/ludicrousdb/ludicrousdb/includes/class-ludicrousdb.php';
+
+		// Set default constants.
+		ldb_default_constants();
+
+		$db_class = apply_filters( 'wp_platform_db_class', 'LudicrousDB' );
+
+		// Create database object.
+		$wpdb = new $db_class(); // WPCS: override ok.
+
+		$wpdb->save_queries             = false;
+		$wpdb->persistent               = false;
+		$wpdb->max_connections          = 10;
+		$wpdb->check_tcp_responsiveness = true;
+
+		$wpdb->add_database(
+			[
+				'host'     => DB_HOST,     // If port is other than 3306, use host:port.
+				'user'     => DB_USER,
+				'password' => DB_PASSWORD,
+				'name'     => DB_NAME,
+			]
+		);
+
+		/**
+		 * This adds the same server again, only this time it is configured as a slave.
+		 * The last three parameters are set to the defaults but are shown for clarity.
+		 */
+		if ( defined( 'DB_HOST_SLAVE' ) && DB_HOST_SLAVE ) {
+			$wpdb->add_database(
+				[
+					'host'     => DB_HOST_SLAVE,     // If port is other than 3306, use host:port.
+					'user'     => DB_USER,
+					'password' => DB_PASSWORD,
+					'name'     => DB_NAME,
+					'write'    => 0,
+					'read'     => 1,
+					'dataset'  => 'global',
+					'timeout'  => 0.2,
+				]
+			);
+		}
 	}
 }

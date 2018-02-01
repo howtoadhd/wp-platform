@@ -4,3 +4,6 @@
 [submodule "modules/object-cache"]
 	path = modules/object-cache
 	url = https://github.com/humanmade/wordpress-pecl-memcached-object-cache.git
+[submodule "modules/ludicrousdb"]
+	path = modules/ludicrousdb
+	url = https://github.com/stuttter/ludicrousdb.git
