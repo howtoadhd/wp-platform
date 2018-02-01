@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Coding Standard.
+ * WP Platform.
  *
  * @package HowToADHD\WPPlatform
  * @link    https://github.com/howtoadhd/wp-platform
