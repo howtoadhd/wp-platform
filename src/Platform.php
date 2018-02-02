@@ -9,10 +9,12 @@
 
 namespace HowToADHD\WPPlatform;
 
+use HowToADHD\WPPlatform\Service\Database;
 use HowToADHD\WPPlatform\Service\ObjectCache;
 use HowToADHD\WPPlatform\Service\PageCache;
+use HowToADHD\WPPlatform\Service\S3Uploads;
+use HowToADHD\WPPlatform\Service\TaskRunner;
 use HowToADHD\WPPlatform\Service\Service;
-use HowToADHD\WPPlatform\Service\Database;
 
 /**
  * Class Platform
@@ -31,14 +33,21 @@ final class Platform implements Registerable {
 	 *
 	 * @var string
 	 */
-	private $platform_path;
+	public $platform_path;
 
 	/**
 	 * Path to the platform modules directory.
 	 *
 	 * @var string
 	 */
-	private $modules_path;
+	public $modules_path;
+
+	/**
+	 * Instantiated service Objects.
+	 *
+	 * @var array
+	 */
+	private $services;
 
 	/**
 	 * Instantiate a Platform object.
@@ -76,6 +85,7 @@ final class Platform implements Registerable {
 				$service->register();
 			}
 		);
+		$this->services = $services;
 	}
 
 	/**
@@ -91,7 +101,7 @@ final class Platform implements Registerable {
 			throw Exception\InvalidService::from_service( $class );
 		}
 
-		$service = new $class( $this->modules_path );
+		$service = new $class( $this );
 
 		if ( ! $service instanceof Service ) {
 			throw Exception\InvalidService::from_service( $service );
@@ -107,10 +117,22 @@ final class Platform implements Registerable {
 	 */
 	private function get_services() {
 		return [
-			Database::class,
-			ObjectCache::class,
-			PageCache::class,
+			'Database'    => Database::class,
+			'ObjectCache' => ObjectCache::class,
+			'PageCache'   => PageCache::class,
+			'TaskRunner'  => TaskRunner::class,
+			'S3Uploads'   => S3Uploads::class,
 		];
 	}
 
+	/**
+	 * Get a service by name.
+	 *
+	 * @param string $service The service to get.
+	 *
+	 * @return Service The requested service object.
+	 */
+	public function get_service( string $service ) {
+		return $this->services[ $service ];
+	}
 }

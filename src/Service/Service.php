@@ -9,6 +9,7 @@
 
 namespace HowToADHD\WPPlatform\Service;
 
+use HowToADHD\WPPlatform\Platform;
 use HowToADHD\WPPlatform\Registerable;
 
 /**
@@ -30,11 +31,26 @@ abstract class Service implements Registerable {
 	protected $modules_path;
 
 	/**
+	 * The platform instance
+	 *
+	 * @var Platform
+	 */
+	protected $platform;
+
+	/**
 	 * Instantiate a Service object.
 	 *
-	 * @param String $modules_path Path to the platform modules directory.
+	 * @param Platform $platform The platform instance.
 	 */
-	public function __construct( string $modules_path ) {
-		$this->modules_path = $modules_path;
+	public function __construct( Platform $platform ) {
+		$this->platform     = $platform;
+		$this->modules_path = $platform->modules_path;
 	}
+
+	/**
+	 * Check if the service is enabled.
+	 *
+	 * @return bool
+	 */
+	abstract public function is_enabled();
 }
