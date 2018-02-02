@@ -10,3 +10,6 @@
 [submodule "modules/object-cache"]
 	path = modules/object-cache
 	url = https://github.com/humanmade/wordpress-pecl-memcached-object-cache.git
+[submodule "modules/s3-uploads"]
+	path = modules/s3-uploads
+	url = https://github.com/humanmade/S3-Uploads.git

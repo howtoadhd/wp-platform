@@ -12,6 +12,7 @@ namespace HowToADHD\WPPlatform;
 use HowToADHD\WPPlatform\Service\Database;
 use HowToADHD\WPPlatform\Service\ObjectCache;
 use HowToADHD\WPPlatform\Service\PageCache;
+use HowToADHD\WPPlatform\Service\S3Uploads;
 use HowToADHD\WPPlatform\Service\TaskRunner;
 use HowToADHD\WPPlatform\Service\Service;
 
@@ -120,6 +121,7 @@ final class Platform implements Registerable {
 			'ObjectCache' => ObjectCache::class,
 			'PageCache'   => PageCache::class,
 			'TaskRunner'  => TaskRunner::class,
+			'S3Uploads'   => S3Uploads::class,
 		];
 	}
 
