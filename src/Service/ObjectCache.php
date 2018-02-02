@@ -21,21 +21,29 @@ use HowToADHD\WPPlatform\Util;
 class ObjectCache extends Service {
 
 	/**
+	 * Check if the service is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_enabled() {
+		return Util::env( 'ENABLE_OBJECT_CACHE', true );
+	}
+
+	/**
 	 * Register Memcached object cache if ENABLE_OBJECT_CACHE env var is defined.
 	 */
 	public function register() {
-
-		if ( ! Util::env( 'ENABLE_OBJECT_CACHE', true ) ) {
+		if ( ! $this->is_enabled() ) {
 			return;
 		}
 
-		$this->enable_object_cache();
+		$this->init();
 	}
 
 	/**
 	 * Enable the object cache.
 	 */
-	public function enable_object_cache() {
+	public function init() {
 		$GLOBALS['memcached_servers'] = $this->get_memcached_servers();
 
 		if ( empty( $GLOBALS['memcached_servers'] ) ) {

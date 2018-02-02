@@ -21,10 +21,25 @@ use HowToADHD\WPPlatform\Util;
 class PageCache extends Service {
 
 	/**
+	 * Check if the service is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_enabled() {
+		$object_cache = $this->platform->get_service( 'ObjectCache' );
+
+		if ( ! $object_cache->is_enabled() ) {
+			return false;
+		}
+
+		return Util::env( 'ENABLE_OBJECT_CACHE', true );
+	}
+
+	/**
 	 * Register Batcache.
 	 */
 	public function register() {
-		add_filter( 'enable_loading_advanced_cache_dropin', [ $this, 'maybe_enable_page_cache' ], 10, 1 );
+		add_filter( 'enable_loading_advanced_cache_dropin', [ $this, 'maybe_init' ], 10, 1 );
 	}
 
 	/**
@@ -34,11 +49,8 @@ class PageCache extends Service {
 	 *
 	 * @return false Dont include wp-content/object-cache.php.
 	 */
-	public function maybe_enable_page_cache( $should_load ) {
-		if ( ! Util::env( 'ENABLE_OBJECT_CACHE', true )
-			|| ! Util::env( 'ENABLE_PAGE_CACHE', true )
-			|| ! $should_load
-		) {
+	public function maybe_init( $should_load ) {
+		if ( ! $this->is_enabled() || ! $should_load ) {
 			return false;
 		}
 

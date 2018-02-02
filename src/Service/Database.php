@@ -21,6 +21,15 @@ use HowToADHD\WPPlatform\Util;
 class Database extends Service {
 
 	/**
+	 * This service is always enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_enabled() {
+		return true;
+	}
+
+	/**
 	 * Register LudicrousDB.
 	 */
 	public function register() {
@@ -56,7 +65,7 @@ class Database extends Service {
 	 *
 	 * @param \LudicrousDB $wpdb The initialised DB object.
 	 */
-	public function configure( \LudicrousDB $wpdb ) {
+	private function configure( \LudicrousDB $wpdb ) {
 		$wpdb->save_queries             = false;
 		$wpdb->persistent               = false;
 		$wpdb->max_connections          = 10;
