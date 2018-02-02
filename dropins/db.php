@@ -9,5 +9,4 @@
 
 namespace HowToADHD\WPPlatform;
 
-PlatformFactory::create()
-	->enable_db();
+do_action( 'wp_platform_database_init' );

@@ -10,7 +10,7 @@
 namespace HowToADHD\WPPlatform;
 
 /**
- * Class PlatformFactory
+ * Class Util
  *
  * @since   0.1.0
  *
