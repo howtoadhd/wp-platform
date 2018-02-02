@@ -1,9 +1,12 @@
 [submodule "modules/batcache"]
 	path = modules/batcache
 	url = https://github.com/humanmade/batcache.git
-[submodule "modules/object-cache"]
-	path = modules/object-cache
-	url = https://github.com/humanmade/wordpress-pecl-memcached-object-cache.git
+[submodule "modules/cavalcade"]
+	path = modules/cavalcade
+	url = https://github.com/humanmade/Cavalcade.git
 [submodule "modules/ludicrousdb"]
 	path = modules/ludicrousdb
 	url = https://github.com/stuttter/ludicrousdb.git
+[submodule "modules/object-cache"]
+	path = modules/object-cache
+	url = https://github.com/humanmade/wordpress-pecl-memcached-object-cache.git
