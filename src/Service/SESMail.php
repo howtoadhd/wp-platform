@@ -21,6 +21,24 @@ use HowToADHD\WPPlatform\Util;
 class SESMail extends Service {
 
 	/**
+	 * Get the name of this service.
+	 *
+	 * @return string Service name.
+	 */
+	public function get_service_name() {
+		return __( 'SES Mail', 'wp-platform' );
+	}
+
+	/**
+	 * Get the description of this service.
+	 *
+	 * @return string Service description.
+	 */
+	public function get_service_description() {
+		return __( 'Replacement for wp_mail that uses AWS SES.', 'wp-platform' );
+	}
+
+	/**
 	 * Check if the service is enabled.
 	 *
 	 * @return bool

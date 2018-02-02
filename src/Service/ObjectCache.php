@@ -21,6 +21,24 @@ use HowToADHD\WPPlatform\Util;
 class ObjectCache extends Service {
 
 	/**
+	 * Get the name of this service.
+	 *
+	 * @return string Service name.
+	 */
+	public function get_service_name() {
+		return __( 'Object Cache', 'wp-platform' );
+	}
+
+	/**
+	 * Get the description of this service.
+	 *
+	 * @return string Service description.
+	 */
+	public function get_service_description() {
+		return __( 'Object cache backend that implements all available methods in the Memcached PECL extension.', 'wp-platform' );
+	}
+
+	/**
 	 * Check if the service is enabled.
 	 *
 	 * @return bool
