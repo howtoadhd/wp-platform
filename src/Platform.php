@@ -178,32 +178,55 @@ final class Platform {
 		$wpdb->max_connections          = 10;
 		$wpdb->check_tcp_responsiveness = true;
 
-		$wpdb->add_database(
-			[
-				'host'     => DB_HOST,     // If port is other than 3306, use host:port.
-				'user'     => DB_USER,
-				'password' => DB_PASSWORD,
-				'name'     => DB_NAME,
-			]
-		);
+		$master = $this->get_db_server( false );
+		$slave  = $this->get_db_server( true );
 
-		/**
-		 * This adds the same server again, only this time it is configured as a slave.
-		 * The last three parameters are set to the defaults but are shown for clarity.
-		 */
-		if ( defined( 'DB_HOST_SLAVE' ) && DB_HOST_SLAVE ) {
-			$wpdb->add_database(
-				[
-					'host'     => DB_HOST_SLAVE,     // If port is other than 3306, use host:port.
-					'user'     => DB_USER,
-					'password' => DB_PASSWORD,
-					'name'     => DB_NAME,
-					'write'    => 0,
-					'read'     => 1,
-					'dataset'  => 'global',
-					'timeout'  => 0.2,
-				]
-			);
+		if ( empty( $slave ) ) {
+			$slave          = $master;
+			$slave['write'] = 0;
 		}
+
+		$wpdb->add_database( $master );
+		$wpdb->add_database( $slave );
+	}
+
+	/**
+	 * Get database server from env var.
+	 *
+	 * If $slave is false get master server.
+	 * If $slave is true get slave server
+	 *
+	 * @param bool $slave Default false.
+	 *
+	 * @return array Database connection details.
+	 */
+	public function get_db_server( bool $slave = false ) {
+		$env_var = ( $slave ) ? 'DB_SLAVE' : 'DB_MASTER';
+		$env_val = Util::env( $env_var, false );
+
+		if ( false === $env_val ) {
+			return [];
+		}
+
+		if ( strpos( $env_val, '//' ) === false ) {
+			$env_val = 'mysql://' . $env_val;
+		}
+
+		if ( ! Util::starts_with( $env_val, 'mysql://' ) ) {
+			$env_val = "//${env_val}";
+		}
+
+		$db = parse_url( $env_val ); // phpcs:disable WordPress.WP.AlternativeFunctions
+
+		return [
+			'name'     => trim( $db['path'], '/' ),
+			'user'     => $db['user'],
+			'password' => $db['pass'],
+			'host'     => $db['host'],
+			'write'    => ( $slave ) ? 0 : 1,
+			'read'     => 1,
+			'dataset'  => 'global',
+			'timeout'  => 0.2,
+		];
 	}
 }
