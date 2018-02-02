@@ -21,6 +21,24 @@ use HowToADHD\WPPlatform\Util;
 class TaskRunner extends Service {
 
 	/**
+	 * Get the name of this service.
+	 *
+	 * @return string Service name.
+	 */
+	public function get_service_name() {
+		return __( 'Task Runner', 'wp-platform' );
+	}
+
+	/**
+	 * Get the description of this service.
+	 *
+	 * @return string Service description.
+	 */
+	public function get_service_description() {
+		return __( 'A better wp-cron. Horizontally scalable, works perfectly with multisite.', 'wp-platform' );
+	}
+
+	/**
 	 * Check if the service is enabled.
 	 *
 	 * @return bool

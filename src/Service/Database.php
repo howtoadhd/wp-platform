@@ -21,6 +21,24 @@ use HowToADHD\WPPlatform\Util;
 class Database extends Service {
 
 	/**
+	 * Get the name of this service.
+	 *
+	 * @return string Service name.
+	 */
+	public function get_service_name() {
+		return __( 'Database', 'wp-platform' );
+	}
+
+	/**
+	 * Get the description of this service.
+	 *
+	 * @return string Service description.
+	 */
+	public function get_service_description() {
+		return __( 'An advanced database interface for WordPress that supports replication, fail-over, load balancing, and partitioning.', 'wp-platform' );
+	}
+
+	/**
 	 * This service is always enabled.
 	 *
 	 * @return bool

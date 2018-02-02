@@ -53,4 +53,22 @@ abstract class Service implements Registerable {
 	 * @return bool
 	 */
 	abstract public function is_enabled();
+
+	/**
+	 * Get the name of this service.
+	 *
+	 * @return string Service name.
+	 */
+	public function get_service_name() {
+		return get_called_class();
+	}
+
+	/**
+	 * Get the description of this service.
+	 *
+	 * @return string Service description.
+	 */
+	public function get_service_description() {
+		return '';
+	}
 }

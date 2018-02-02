@@ -9,6 +9,7 @@
 
 namespace HowToADHD\WPPlatform;
 
+use HowToADHD\WPPlatform\Service\Admin\PluginsPage;
 use HowToADHD\WPPlatform\Service\Database;
 use HowToADHD\WPPlatform\Service\ObjectCache;
 use HowToADHD\WPPlatform\Service\PageCache;
@@ -79,7 +80,7 @@ final class Platform implements Registerable {
 	 * @throws Exception\InvalidService If a service is not valid.
 	 */
 	public function register_services() {
-		$services = $this->get_services();
+		$services = $this->registerable_services();
 		$services = array_map( [ $this, 'instantiate_service' ], $services );
 		array_walk(
 			$services, function ( Service $service ) {
@@ -116,14 +117,15 @@ final class Platform implements Registerable {
 	 *
 	 * @return array<string> Array of fully qualified class names.
 	 */
-	private function get_services() {
+	private function registerable_services() {
 		return [
-			'Database'    => Database::class,
-			'ObjectCache' => ObjectCache::class,
-			'PageCache'   => PageCache::class,
-			'S3Uploads'   => S3Uploads::class,
-			'SESMail'     => SESMail::class,
-			'TaskRunner'  => TaskRunner::class,
+			'Admin/PluginsPage' => PluginsPage::class,
+			'Database'          => Database::class,
+			'ObjectCache'       => ObjectCache::class,
+			'PageCache'         => PageCache::class,
+			'S3Uploads'         => S3Uploads::class,
+			'SESMail'           => SESMail::class,
+			'TaskRunner'        => TaskRunner::class,
 		];
 	}
 
@@ -136,5 +138,14 @@ final class Platform implements Registerable {
 	 */
 	public function get_service( string $service ) {
 		return $this->services[ $service ];
+	}
+
+	/**
+	 * Get registered services.
+	 *
+	 * @return array The requested service object.
+	 */
+	public function get_services() {
+		return $this->services;
 	}
 }

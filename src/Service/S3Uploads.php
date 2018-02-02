@@ -21,6 +21,24 @@ use HowToADHD\WPPlatform\Util;
 class S3Uploads extends Service {
 
 	/**
+	 * Get the name of this service.
+	 *
+	 * @return string Service name.
+	 */
+	public function get_service_name() {
+		return __( 'S3 Uploads', 'wp-platform' );
+	}
+
+	/**
+	 * Get the description of this service.
+	 *
+	 * @return string Service description.
+	 */
+	public function get_service_description() {
+		return __( 'Store uploads in S3.', 'wp-platform' );
+	}
+
+	/**
 	 * Check if the service is enabled.
 	 *
 	 * @return bool

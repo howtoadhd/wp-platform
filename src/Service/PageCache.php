@@ -21,6 +21,24 @@ use HowToADHD\WPPlatform\Util;
 class PageCache extends Service {
 
 	/**
+	 * Get the name of this service.
+	 *
+	 * @return string Service name.
+	 */
+	public function get_service_name() {
+		return __( 'Page Cache', 'wp-platform' );
+	}
+
+	/**
+	 * Get the description of this service.
+	 *
+	 * @return string Service description.
+	 */
+	public function get_service_description() {
+		return __( 'Batcache uses Memcached to store and serve rendered pages.', 'wp-platform' );
+	}
+
+	/**
 	 * Check if the service is enabled.
 	 *
 	 * @return bool
