@@ -89,8 +89,8 @@ class Database extends Service {
 		$wpdb->max_connections          = 10;
 		$wpdb->check_tcp_responsiveness = true;
 
-		$master = $this->get_db_server( false );
-		$slave  = $this->get_db_server( true );
+		$master = self::get_db_server( false );
+		$slave  = self::get_db_server( true );
 
 		if ( empty( $slave ) ) {
 			$slave          = $master;
@@ -111,7 +111,7 @@ class Database extends Service {
 	 *
 	 * @return array Database connection details.
 	 */
-	public function get_db_server( bool $slave = false ) {
+	public static function get_db_server( bool $slave = false ) {
 		$env_var = ( $slave ) ? 'DB_SLAVE' : 'DB_MASTER';
 		$env_val = Util::env( $env_var, false );
 
